@@ -11,6 +11,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -55,10 +58,37 @@ public class TestWebPage {
 	}
 	
 	@Test
+	public void testDrowpDown() {
+		Select dropDown = new Select(driver.findElement(By.id("testingDropdown")));
+		dropDown.selectByValue("Manual");
+		dropDown.selectByValue("Database");
+		dropDown.selectByValue("Performance");
+	}
+	
+	@Test
+	public void testRadioButton() {
+		Assert.assertFalse(driver.findElement(By.xpath("//input[@id='male']")).isSelected());
+		Assert.assertFalse(driver.findElement(By.xpath("//input[@id='female']")).isSelected());
+		driver.findElement(By.xpath("//input[@id='female']")).click();
+		Assert.assertTrue(driver.findElement(By.xpath("//input[@id='female']")).isSelected());
+		driver.findElement(By.xpath("//input[@id='male']")).click();
+		Assert.assertTrue(driver.findElement(By.xpath("//input[@id='male']")).isSelected());
+		Assert.assertFalse(driver.findElement(By.xpath("//input[@id='female']")).isSelected());
+	}
+	
+	@Test
+	public void testCheckBox() {
+		Assert.assertFalse(driver.findElement(By.className("Automation")).isSelected());
+		Assert.assertFalse(driver.findElement(By.className("Performance")).isSelected());
+		driver.findElement(By.className("Performance")).click();
+		Assert.assertTrue(driver.findElement(By.className("Performance")).isSelected());
+	}
+	
+	@Test
 	public void testDoubleClickButton() {
-		WebElement target = driver.findElement(By.id("dblClkBtn"));
 		Actions act = new Actions(driver);
-		act.doubleClick(target);
+		WebElement target = driver.findElement(By.id("dblClkBtn"));
+		act.doubleClick(target).perform();
 		Alert confirmBox = driver.switchTo().alert();
 		Assert.assertEquals(confirmBox.getText(), "hi, JavaTpoint Testing");
 		confirmBox.accept();
@@ -66,24 +96,24 @@ public class TestWebPage {
 	
 	@Test
 	public void testAlertBox() {
-		//JavascriptExecutor js = (JavascriptExecutor)driver;  
-	    //js.executeScript("scroll(0, 450)");
-		driver.findElement(By.linkText("Generate Alert Box")).click();
+		WebElement inputElement = driver.findElement(By.xpath("//button[starts-with(@onclick,'alert(')]"));
+		((JavascriptExecutor)driver).executeScript("arguments[0].checked = true;", inputElement);
+		inputElement.click();
 		Alert alertBox = driver.switchTo().alert();
 		Assert.assertTrue(alertBox.getText().contains("hi, JavaTpoint Testing"));
 		alertBox.accept();
 	}
 	
 	@Test
-	public void testConfirmBox() {
-	    //JavascriptExecutor js = (JavascriptExecutor)driver;  
-	    //js.executeScript("scroll(0, 450)");  
-		driver.findElement(By.linkText("Generate Alert Box")).click();
+	public void testConfirmBox() {  
+		WebElement inputElement = driver.findElement(By.xpath("//button[starts-with(@onclick,'generateConfirmBox()')]"));
+		((JavascriptExecutor)driver).executeScript("arguments[0].checked = true;", inputElement);
+		inputElement.click();
 		Alert confirmBox = driver.switchTo().alert();
 		Assert.assertTrue(confirmBox.getText().contains("Press a button!"));;
 		confirmBox.accept();
 		driver.findElement(By.id("demo")).getText().contains("You pressed OK!");
-		driver.findElement(By.linkText("Generate Confirm Box")).click();
+		driver.findElement(By.xpath("//button[starts-with(@onclick,'generateConfirmBox()')]")).click();
 		confirmBox.dismiss();
 		driver.findElement(By.id("demo")).getText().contains("You pressed Cancel!");
 	}
