@@ -3,6 +3,8 @@ Automated WebPage using Selenium TestNG Framework
 
 Used Below WebSite to Automate the Testing using Selenium TestNG Framework
 https://www.testandquiz.com/selenium/testing.html
+![WebSite Used](https://github.com/pdshah77/TestNGProject/blob/master/img/WebSite.PNG)
+
 
 Dependencies Needs to be added:
 Eclipse with TestNG Extension
