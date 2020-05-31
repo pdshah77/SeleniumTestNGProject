@@ -25,7 +25,7 @@ public class TestWebPage {
 	@Parameters("browser")			// To Run On Parallel Browser
 	  public void setUp(String browser) throws Exception {
 		if (browser.equalsIgnoreCase("Chrome")) {
-			System.setProperty("webdriver.chrome.driver", "E:\\Selenium\\chromedriver_win32\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "E:\\Selenium\\chromedriver_win32_83\\chromedriver.exe");
 			driver = new ChromeDriver();
 		}
 		else if (browser.equalsIgnoreCase("FireFox")) {
